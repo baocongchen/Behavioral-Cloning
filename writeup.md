@@ -47,9 +47,7 @@ The model includes RELU layers to introduce nonlinearity, and the data is normal
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains a dropout layer in order to reduce overfitting. 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+I used a dropout layer in order to reduce overfitting. In addition, the model was trained and validated on different data sets to ensure that the model was not overfitting. The model was also tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
@@ -67,20 +65,16 @@ For details about how I created the training data, see the next section.
 
 The overall strategy for deriving a model architecture was to try various combinations of layers.
 
-My first step was to use a convolution neural network model similar to [Nvidia's End to End Learning for Self-Driving Cars
-](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) I thought this model might be appropriate because this end-to-end approach proved surprisingly powerful.
+My first step was to use a convolution neural network model similar to the one used in [Nvidia's End to End Learning for Self-Driving Cars
+](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf). I thought this model might be appropriate because this end-to-end approach proved surprisingly powerful.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. Validation loss remained around 0.02. The simulated self-driving car popped up onto ledges, so I decided to modify the strides in such a way that the ratio between vertical filters and horizontal filters is between 0.3 and 0.5 corresponding to the ratio of the height and width of the input image. I also increased the number of filters to capture more features and used simulator to test the effect of the modification.
 
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+To combat the overfitting, I used a dropout layer with a rate of 0.5 as the last layer in the network. I restricted the number of epochs to 10 or lower so that the model would not memorize data but learn from it.
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
 
@@ -88,7 +82,7 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ![alt text][image1]
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
