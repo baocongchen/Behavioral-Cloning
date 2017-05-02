@@ -1,28 +1,29 @@
-import argparse
-import base64
-from datetime import datetime
-import os
-import shutil
-
+import h5py, os, json, base64, argparse, shutil, cv2
 import numpy as np
+from datetime import datetime
+from skimage.exposure import adjust_gamma
+from scipy.misc import imresize
 import socketio
 import eventlet
 import eventlet.wsgi
+import time
 from PIL import Image
-from flask import Flask
+from flask import Flask, render_template
 from io import BytesIO
-
 from keras.models import load_model
-import h5py
 from keras import __version__ as keras_version
-from scipy.misc import imresize
-from skimage.exposure import adjust_gamma
+from keras.models import model_from_json
+from keras.preprocessing.image import ImageDataGenerator
+from sklearn.preprocessing import normalize
+def rgb2gray(rgb):
+    r, g, b = rgb[:,:,:,0], rgb[:,:,:,1], rgb[:,:,:,2]
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
+    return gray
 
 sio = socketio.Server()
 app = Flask(__name__)
 model = None
 prev_image_array = None
-
 
 class SimplePIController:
     def __init__(self, Kp, Ki):
@@ -49,7 +50,6 @@ controller = SimplePIController(0.1, 0.002)
 set_speed = 30
 controller.set_desired(set_speed)
 
-
 @sio.on('telemetry')
 def telemetry(sid, data):
     if data:
@@ -63,25 +63,16 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
-        try:
-            image_array = imresize(image_array, (32,64,3)).astype(np.float32)
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
-        try:
-            image_array = adjust_gamma(image_array)
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
-        try:
-            transformed_image_array = image_array[None, 12:30, :, :].astype(np.float32)
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
-        steering_angle = float(model.predict(transformed_image_array[None, :, :, :], batch_size=1))
-            
+        image_array = np.divide(image_array, 255.0) 
+        image_array = imresize(image_array, (32,64,3)).astype(np.float32)
+        image_array = np.array(image_array)[None,12:30,:,:]
+        image_array = np.reshape(rgb2gray(image_array), (1, 18, 64, 1))
+        transformed_image_array = image_array.astype(np.float32)
+        # This model currently assumes that the features of the model are just the images. Feel free to change this.
+        steering_angle = float(model.predict(transformed_image_array, batch_size=1))
         throttle = controller.update(float(speed))
-        
         print(steering_angle, throttle)
         send_control(steering_angle, throttle)
-
         # save frame
         if args.image_folder != '':
             timestamp = datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S_%f')[:-3]
