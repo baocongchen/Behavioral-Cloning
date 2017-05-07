@@ -41,7 +41,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 and 2x2 filter sizes and depths between 16 and 48
+My model consists of a convolution neural network with 4x4 and 2x2 filter sizes and depths between 16 and 48
 
 The model includes RELU layers to introduce nonlinearity, and the data is normalized in the model using lambda.
 
