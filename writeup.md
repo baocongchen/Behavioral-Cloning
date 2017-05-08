@@ -110,7 +110,7 @@ I then recorded the vehicle recovering from the left side and right sides of the
 
 To augment the data sat, I also flipped images and angles thinking that this would help prevent steering bias to the left. For example, here is an image that has then been flipped:
   | Original | Flipped |
-  | -------- | ------- |
+  | :------: | :-----: |
   | [![](./images/flip.jpg)] | [![](./images/pre-flip.jpg)] |
 
 After the collection process, I had 7491 number of data points. I then preprocessed this data by resizing it to 32x64x3 and cropping 12px from the top.
