@@ -1,8 +1,3 @@
-
-# coding: utf-8
-
-# In[1]:
-
 # Import necessary libraries
 import numpy as np
 import pandas as pd
@@ -66,8 +61,6 @@ y_train = np.concatenate((y_train, mirror_angles),axis=0)
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=.1)
 
 
-# In[2]:
-
 # Build model architecture
 # The image data is cropped and normalized to achieve the best prediction accuracy.
 model = Sequential()
@@ -84,9 +77,6 @@ model.add(Activation('relu'))
 model.add(Dropout(.5))
 model.add(Dense(1))
 model.summary()
-
-
-# In[3]:
 
 # Compile model with adam optimizer and learning rate of .0001
 adam = Adam(lr=0.0001)
@@ -115,9 +105,3 @@ with open('model.json', 'w') as jsonfile:
     json.dump(json_string, jsonfile)
 model.save('model.h5')    
 print("Model Saved")
-
-
-# In[ ]:
-
-
-
