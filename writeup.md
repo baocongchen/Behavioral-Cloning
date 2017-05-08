@@ -99,17 +99,16 @@ Total params: 301,193
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-\t\t\t\t\t\t ![Center](./images/center.jpg)
+                          ![Center](./images/center.jpg)
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to steer back whenever it deviates from the center. These images show what a recovery looks like:
 
-\t\t\t\t\t\t ![Recovery](./images/recovery.gif)
+                          ![Recovery](./images/recovery.gif)
 
 
 To augment the data sat, I also flipped images and angles thinking that this would help prevent steering bias to the left. For example, here is an image that has then been flipped:
 
-![Pre-flipped](./images/flip.jpg) \t\t\t
-![Flipped](./images/pre-flip.jpg)
+                ![Pre-flipped](./images/flip.jpg)                   ![Flipped](./images/pre-flip.jpg)
 
 After the collection process, I had 7491 number of data points. I then preprocessed this data by resizing it to 32x64x3 and cropping 12px from the top.
 
