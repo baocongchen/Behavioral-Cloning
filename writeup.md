@@ -75,11 +75,11 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 #### 2. Final Model Architecture
 
-The final model architecture () consisted of a convolution neural network with the following layers and layer sizes:
+The final model architecture consisted of a convolution neural network with the following layers and layer sizes:
 
 
-|Layer (type)         |            Output Shape     |     Param #  |   Connected to                 |  
-| ---------       |      -----------       |    -----------        |   ------------                 |  
+|Layer (type)         |            Output Shape     |     Param #           |   Connected to                 |  
+| -------------       |      ----------------       |    -----------        |   ------------                 |  
 |cropping2d_1 (Cropping2D)   |     (None, 14, 64, 3)   |  0         |  cropping2d_input_1[0][0]     |    
 |lambda_1 (Lambda)           |     (None, 14, 64, 3)    | 0         |  cropping2d_1[0][0]           |    
 |convolution2d_1 (Convolution2D) |  (None, 7, 32, 12)  |   588      |   lambda_1[0][0]              |     
@@ -99,22 +99,21 @@ Total params: 301,193
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-![alt text][image2]
+[Center](./image/center.jpg)
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to steer back whenever it deviates from the center. These images show what a recovery looks like:
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+[Recovery](./image/recovery.gif)
+
 
 To augment the data sat, I also flipped images and angles thinking that this would help prevent steering bias to the left. For example, here is an image that has then been flipped:
 
-![alt text][image6]
-![alt text][image7]
+[pre-flip](./image/flip.jpg)
+[flip](./image/pre-flip.jpg)
 
 After the collection process, I had 7491 number of data points. I then preprocessed this data by resizing it to 32x64x3 and cropping 12px from the top.
 
 
-I finally randomly shuffled the data set and put 10% of the data into a validation set. 
+I finally randomly shuffled the data set and put 10% of the data into a validation set.
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The number of epochs was set to 25 to avoid overfitting. I used an adam optimizer so that manually training the learning rate wasn't necessary.
