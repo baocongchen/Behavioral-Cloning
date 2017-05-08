@@ -116,9 +116,9 @@ To augment the data sat, I also flipped images and angles thinking that this wou
   | :------: | :-----: |
   | ![](https://github.com/baocongchen/CarND-Behavioral-Cloning-P3/blob/master/images/pre-flip.jpg) | ![](https://github.com/baocongchen/CarND-Behavioral-Cloning-P3/blob/master/images/flip.jpg) |
 
-After the collection process, I had 7491 number of data points. I then preprocessed this data by resizing it to 32x64x3 and cropping 12px from the top.
+After the collection process, I had 7491 number of data points. I then preprocessed this data by resizing it to 32x64x3 and cropping 12px from the top, and 6px from the bottom.
 
 
 I finally randomly shuffled the data set and put 10% of the data into a validation set.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The number of epochs was set to 25 to avoid overfitting. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The number of epochs was set to 25 to avoid overfitting. I used an adam optimizer so that manually training the learning rate wasn't necessary. Furthermore, I controlled throttle based on predicted steering angles in `drive.py`.
